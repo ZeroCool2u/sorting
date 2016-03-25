@@ -18,6 +18,12 @@ public class sorting {
     private static int random;
     private static int trials;
 
+    private int insertSortAveTime;
+    private int heapSortAvetime;
+    private int mergeSortAveTime;
+    private int bottomUpSortAveTime;
+    private int quickSortAveTime;
+
     private static void printArray(String msg) {
         System.out.print(msg + " [" + arr[0]);
         for(int i=1; i<size; i++) {
@@ -174,7 +180,6 @@ public class sorting {
         randomGenerator = new Random();
 
         //TODO: Add global time variable.
-
 
         try {
             System.out.print("Please enter array size : ");
