@@ -18,7 +18,6 @@ public class sorting {
     private static int random;
     private static long trials;
 
-
     private static void printArray(String msg) {
         System.out.print(msg + " [" + arr[0]);
         for(int i=1; i<size; i++) {
@@ -127,11 +126,28 @@ public class sorting {
 
     }
 
-/*    private static void bottomupmergesort(){
-        int t = 1;
-        int n =
-        while(t <
-    }*/
+    private static void bottomupmergesort(int[] a)
+    {
+        int width;
+
+        for ( width = 1; width < a.length; width = 2*width )
+        {
+            // Combine pairs of array a of width "width"
+            int i;
+
+            for ( i = 0; i < a.length - width; i = i + 2*width )
+            {
+                int left, middle, right;
+
+                left = i;
+                middle = i + width - 1;
+                right = (i + width * 2 -1) < (a.length-1) ? (i + width * 2 -1) : (a.length-1);
+
+                merge( left, middle, right );
+
+            }
+        }
+    }
 
     private static void quicksort(int low, int high) {
         int i = low, j = high;
@@ -177,20 +193,17 @@ public class sorting {
         long builtInSortAveTime = 0;
         long heapSortAvetime = 0;
         long mergeSortAveTime = 0;
-        //long bottomUpSortAveTime = 0;
+        long bottomUpSortAveTime = 0;
         long quickSortAveTime = 0;
         long quickSortNearlySortedAveTime = 0;
         long insertSortNearlySortedAveTime = 0;
 
-        long builtInSortComparisons = 0;
-        long heapSortComparisons = 0;
+        long mergeComparisons = 0;
         long mergeSortComparisons = 0;
-        //long bottomUpSortComparisons = 0;
-        long quickSortComparisons = 0;
-        long quickSortNearlySortedComparisons = 0;
-        long insertSortNearlySortedComparisons = 0;
+        long bottomUpSortComparisons = 0;
 
-        //TODO: Add global comparison variables for each sorting method.
+
+        //TODO: Add global comparison variables for merge sort.
 
         try {
             System.out.print("Please enter array size : ");
@@ -210,97 +223,97 @@ public class sorting {
 
         for( int t = 0; t < trials; t++) {
 
-        // create array
-        arr = new int[size];
-        arrCopy = new int[size];
-        arrCopy2 = new int[size];
+            // create array
+            arr = new int[size];
+            arrCopy = new int[size];
+            arrCopy2 = new int[size];
 
-        // fill array
-        for (int i = 0; i < size; i++)
-            arr[i] = arrCopy[i] = randomGenerator.nextInt(random);
+            // fill array
+            for (int i = 0; i < size; i++)
+                arr[i] = arrCopy[i] = randomGenerator.nextInt(random);
 
-        // built-in sort
-        long start = System.currentTimeMillis();
-        if (size < 101) printArray("Initial array:");
-        Arrays.sort(arr);
-        if (size < 101) printArray("out");
-        long finish = System.currentTimeMillis();
-        System.out.println("Arrays.sort: " + (finish - start) + " milliseconds.");
+            // built-in sort
+            long start = System.currentTimeMillis();
+            if (size < 101) printArray("Initial array:");
+            Arrays.sort(arr);
+            if (size < 101) printArray("out");
+            long finish = System.currentTimeMillis();
+            System.out.println("Arrays.sort: " + (finish - start) + " milliseconds.");
             builtInSortAveTime += finish - start;
             System.out.println();
 
-        // Heap sort
-        for (int i = 0; i < size; i++) arr[i] = arrCopy[i];
-        start = finish;
-        if (size < 101) printArray("in");
-        heapsort();
-        if (size < 101) printArray("out");
-        finish = System.currentTimeMillis();
-        System.out.println("heapsort: " + (finish - start) + " milliseconds.");
+            // Heap sort
+            for (int i = 0; i < size; i++) arr[i] = arrCopy[i];
+            start = finish;
+            if (size < 101) printArray("in");
+            heapsort();
+            if (size < 101) printArray("out");
+            finish = System.currentTimeMillis();
+            System.out.println("heapsort: " + (finish - start) + " milliseconds.");
             heapSortAvetime += finish - start;
             System.out.println();
 
-        // Merge sort
-        for (int i = 0; i < size; i++) arr[i] = arrCopy[i];
-        start = finish;
-        if (size < 101) printArray("in");
-        mergesort(0, size - 1);
-        if (size < 101) printArray("out");
-        finish = System.currentTimeMillis();
-        System.out.println("mergesort: " + (finish - start) + " milliseconds.");
+            // Merge sort
+            for (int i = 0; i < size; i++) arr[i] = arrCopy[i];
+            start = finish;
+            if (size < 101) printArray("in");
+            mergesort(0, size - 1);
+            if (size < 101) printArray("out");
+            finish = System.currentTimeMillis();
+            System.out.println("mergesort: " + (finish - start) + " milliseconds.");
             mergeSortAveTime += finish - start;
             System.out.println();
 
-        // Bottom Up Merge Sort
-       /* for(int i=0; i<size; i++) arr[i] = arrCopy[i];
-        start = finish;
-        if (size < 101) printArray("in");
-        bottomupmergesort();
-        if (size < 101) printArray("out");
-        finish = System.currentTimeMillis();
-        System.out.println("Bottom Up Merge Sort: " + (finish - start) + " milliseconds");
-        bottomUpSortAveTime += finish - start;
-        System.out.println();*/
+            // Bottom Up Merge Sort
+            for(int i=0; i<size; i++) arr[i] = arrCopy[i];
+            start = finish;
+            if (size < 101) printArray("in");
+            bottomupmergesort(arr);
+            if (size < 101) printArray("out");
+            finish = System.currentTimeMillis();
+            System.out.println("Bottom Up Merge Sort: " + (finish - start) + " milliseconds");
+            bottomUpSortAveTime += finish - start;
+            System.out.println();
 
-        // Quick sort
-        for (int i = 0; i < size; i++) arr[i] = arrCopy[i];
-        start = finish;
-        if (size < 101) printArray("in");
-        quicksort(0, size - 1);
-        if (size < 101) printArray("out");
-        finish = System.currentTimeMillis();
-        System.out.println("quicksort: " + (finish - start) + " milliseconds.");
+            // Quick sort
+            for (int i = 0; i < size; i++) arr[i] = arrCopy[i];
+            start = finish;
+            if (size < 101) printArray("in");
+            quicksort(0, size - 1);
+            if (size < 101) printArray("out");
+            finish = System.currentTimeMillis();
+            System.out.println("quicksort: " + (finish - start) + " milliseconds.");
             quickSortAveTime += finish - start;
 
             System.out.println();
 
-        // arr[0..size-1] is already sorted. We randomly swap 100 pairs to make it nearly-sorted.
-        for (int i = 0; i < 100; i++) {
-            int j = randomGenerator.nextInt(size);
-            int k = randomGenerator.nextInt(size);
-            exchange(j, k);
-        }
-        for (int i = 0; i < size; i++) arrCopy2[i] = arr[i];
+            // arr[0..size-1] is already sorted. We randomly swap 100 pairs to make it nearly-sorted.
+            for (int i = 0; i < 100; i++) {
+                int j = randomGenerator.nextInt(size);
+                int k = randomGenerator.nextInt(size);
+                exchange(j, k);
+            }
+            for (int i = 0; i < size; i++) arrCopy2[i] = arr[i];
 
-        // Quick sort on nearly-sorted array
-        start = finish;
-        if (size < 101) printArray("in");
-        quicksort(0, size - 1);
-        if (size < 101) printArray("out");
-        finish = System.currentTimeMillis();
-        System.out.println("quicksort on nearly-sorted: " + (finish - start) + " milliseconds.");
+            // Quick sort on nearly-sorted array
+            start = finish;
+            if (size < 101) printArray("in");
+            quicksort(0, size - 1);
+            if (size < 101) printArray("out");
+            finish = System.currentTimeMillis();
+            System.out.println("quicksort on nearly-sorted: " + (finish - start) + " milliseconds.");
             quickSortNearlySortedAveTime += finish - start;
 
             System.out.println();
 
-        // Insert sort on nearly-sorted array
-        for (int i = 0; i < size; i++) arr[i] = arrCopy2[i];
-        start = finish;
-        if (size < 101) printArray("in");
-        insertionSort();
-        if (size < 101) printArray("out");
-        finish = System.currentTimeMillis();
-        System.out.println("insertsort on nearly-sorted: " + (finish - start) + " milliseconds.");
+            // Insert sort on nearly-sorted array
+            for (int i = 0; i < size; i++) arr[i] = arrCopy2[i];
+            start = finish;
+            if (size < 101) printArray("in");
+            insertionSort();
+            if (size < 101) printArray("out");
+            finish = System.currentTimeMillis();
+            System.out.println("insertsort on nearly-sorted: " + (finish - start) + " milliseconds.");
             insertSortNearlySortedAveTime += finish - start;
 
             System.out.println();
@@ -312,7 +325,7 @@ public class sorting {
         System.out.println("Built In Sort Average Execution Time: " + builtInSortAveTime/trials + " milliseconds.");
         System.out.println("Heap Sort Average Execution Time: " + heapSortAvetime/trials + " milliseconds.");
         System.out.println("Merge Sort Average Execution Time: " + mergeSortAveTime/trials + " milliseconds.");
-        //System.out.println("Bottom Up Merge Sort Average Execution Time: " + bottomUpSortAveTime/trials + " milliseconds.");
+        System.out.println("Bottom Up Merge Sort Average Execution Time: " + bottomUpSortAveTime/trials + " milliseconds.");
         System.out.println("Quick Sort Average Execution Time: " + quickSortAveTime/trials + " milliseconds.");
         System.out.println("Nearly Sorted Quick Sort Average Execution Time: " + quickSortNearlySortedAveTime/trials + " milliseconds.");
         System.out.println("Nearly Sorted Insertion Sort Average Execution Time: " + insertSortNearlySortedAveTime/trials + " milliseconds.");
