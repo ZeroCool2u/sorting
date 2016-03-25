@@ -80,17 +80,46 @@ public class sorting {
         }
     }
 
-    private static void mergesort(int low, int high) {
+    private static boolean isSorted(int low, int high) {
+        //Check if a sub array is already sorted.
+        for (int i = arr[low]; i < arr[high]; i++) {
+            if (arr[i] > arr[i + 1]) {
+                return false; // It is proven that the array is not sorted.
+            }
+        }
+
+        return true; // If this part has been reached, the array must be sorted.
+    }
+
+    private static void mergesort0(int low, int high) {
         // Check if low is smaller then high, if not then the array is sorted
         if (low < high) {
             // Get the index of the element which is in the middle
             int middle = low + (high - low) / 2;
             // Sort the left side of the array
-            mergesort(low, middle);
+            mergesort0(low, middle);
             // Sort the right side of the array
-            mergesort(middle + 1, high);
+            mergesort0(middle + 1, high);
             // Combine them both
             merge(low, middle, high);
+        }
+    }
+
+    private static void mergesort1(int low, int high) {
+        //Check if the sub array is already sorted.
+        if (isSorted(low, high)) return;
+        else // Check if low is smaller then high, if not then the array is sorted
+        {
+            if (low < high) {
+                // Get the index of the element which is in the middle
+                int middle = low + (high - low) / 2;
+                // Sort the left side of the array
+                mergesort0(low, middle);
+                // Sort the right side of the array
+                mergesort0(middle + 1, high);
+                // Combine them both
+                merge(low, middle, high);
+            }
         }
     }
 
@@ -127,7 +156,7 @@ public class sorting {
 
     }
 
-    private static void bottomupmergesort(int[] a)
+    private static void bottomupmergesort0(int[] a)
     {
         int width;
 
@@ -150,7 +179,7 @@ public class sorting {
         }
     }
 
-    private static void quicksort(int low, int high) {
+    private static void quicksort0(int low, int high) {
         int i = low, j = high;
 
         // Get the pivot element from the middle of the list
@@ -180,9 +209,9 @@ public class sorting {
 
         // Recursion
         if (low < j)
-            quicksort(low, j);
+            quicksort0(low, j);
         if (i < high)
-            quicksort(i, high);
+            quicksort0(i, high);
     }
 
     public static void main(String[] args) {
@@ -193,7 +222,8 @@ public class sorting {
 
         long builtInSortAveTime = 0;
         long heapSortAvetime = 0;
-        long mergeSortAveTime = 0;
+        long mergeSort0AveTime = 0;
+        long mergeSort1AveTime = 0;
         long bottomUpSortAveTime = 0;
         long quickSortAveTime = 0;
         long quickSortNearlySortedAveTime = 0;
@@ -256,22 +286,33 @@ public class sorting {
             heapSortAvetime += finish - start;
             System.out.println();
 
-            // Merge sort
+            // Merge sort 0
             for (int i = 0; i < size; i++) arr[i] = arrCopy[i];
             start = finish;
             if (size < 101) printArray("in");
-            mergesort(0, size - 1);
+            mergesort0(0, size - 1);
             if (size < 101) printArray("out");
             finish = System.currentTimeMillis();
-            System.out.println("mergesort: " + (finish - start) + " milliseconds.");
-            mergeSortAveTime += finish - start;
+            System.out.println("mergesort0: " + (finish - start) + " milliseconds.");
+            mergeSort0AveTime += finish - start;
+            System.out.println();
+
+            // Merge sort 1
+            for (int i = 0; i < size; i++) arr[i] = arrCopy[i];
+            start = finish;
+            if (size < 101) printArray("in");
+            mergesort1(0, size - 1);
+            if (size < 101) printArray("out");
+            finish = System.currentTimeMillis();
+            System.out.println("mergesort1: " + (finish - start) + " milliseconds.");
+            mergeSort1AveTime += finish - start;
             System.out.println();
 
             // Bottom Up Merge Sort
             for(int i=0; i<size; i++) arr[i] = arrCopy[i];
             start = finish;
             if (size < 101) printArray("in");
-            bottomupmergesort(arr);
+            bottomupmergesort0(arr);
             if (size < 101) printArray("out");
             finish = System.currentTimeMillis();
             System.out.println("Bottom Up Merge Sort: " + (finish - start) + " milliseconds");
@@ -282,10 +323,10 @@ public class sorting {
             for (int i = 0; i < size; i++) arr[i] = arrCopy[i];
             start = finish;
             if (size < 101) printArray("in");
-            quicksort(0, size - 1);
+            quicksort0(0, size - 1);
             if (size < 101) printArray("out");
             finish = System.currentTimeMillis();
-            System.out.println("quicksort: " + (finish - start) + " milliseconds.");
+            System.out.println("quicksort0: " + (finish - start) + " milliseconds.");
             quickSortAveTime += finish - start;
 
             System.out.println();
@@ -301,10 +342,10 @@ public class sorting {
             // Quick sort on nearly-sorted array
             start = finish;
             if (size < 101) printArray("in");
-            quicksort(0, size - 1);
+            quicksort0(0, size - 1);
             if (size < 101) printArray("out");
             finish = System.currentTimeMillis();
-            System.out.println("quicksort on nearly-sorted: " + (finish - start) + " milliseconds.");
+            System.out.println("quicksort0 on nearly-sorted: " + (finish - start) + " milliseconds.");
             quickSortNearlySortedAveTime += finish - start;
 
             System.out.println();
@@ -327,7 +368,8 @@ public class sorting {
 
         System.out.println("Built In Sort Average Execution Time: " + builtInSortAveTime/trials + " milliseconds.");
         System.out.println("Heap Sort Average Execution Time: " + heapSortAvetime/trials + " milliseconds.");
-        System.out.println("Merge Sort Average Execution Time: " + mergeSortAveTime/trials + " milliseconds.");
+        System.out.println("Merge Sort 0 Average Execution Time: " + mergeSort0AveTime / trials + " milliseconds.");
+        System.out.println("Merge Sort 1 Average Execution Time: " + mergeSort1AveTime / trials + " milliseconds.");
         System.out.println("Bottom Up Merge Sort Average Execution Time: " + bottomUpSortAveTime/trials + " milliseconds.");
         System.out.println("Quick Sort Average Execution Time: " + quickSortAveTime/trials + " milliseconds.");
         System.out.println("Nearly Sorted Quick Sort Average Execution Time: " + quickSortNearlySortedAveTime/trials + " milliseconds.");
