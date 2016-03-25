@@ -1,10 +1,11 @@
 /**
  * Created by Theo Linnemann on 3/23/16 as part of sorting.
  */
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.Random;
 import java.util.Arrays;
+import java.util.Random;
 
 public class sorting {
 
@@ -221,6 +222,8 @@ public class sorting {
             ex.printStackTrace();
         }
 
+        long startTime = System.currentTimeMillis();
+
         for( int t = 0; t < trials; t++) {
 
             // create array
@@ -329,6 +332,11 @@ public class sorting {
         System.out.println("Quick Sort Average Execution Time: " + quickSortAveTime/trials + " milliseconds.");
         System.out.println("Nearly Sorted Quick Sort Average Execution Time: " + quickSortNearlySortedAveTime/trials + " milliseconds.");
         System.out.println("Nearly Sorted Insertion Sort Average Execution Time: " + insertSortNearlySortedAveTime/trials + " milliseconds.");
+
+        System.out.println();
+
+        System.out.println("Total Run Time: " + (System.currentTimeMillis() - startTime) + " milliseconds.");
+
 
 
 
