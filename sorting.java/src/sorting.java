@@ -175,15 +175,22 @@ public class sorting {
         randomGenerator = new Random();
 
         long builtInSortAveTime = 0;
-        long insertSortAveTime = 0;
         long heapSortAvetime = 0;
         long mergeSortAveTime = 0;
-        long bottomUpSortAveTime = 0;
+        //long bottomUpSortAveTime = 0;
         long quickSortAveTime = 0;
         long quickSortNearlySortedAveTime = 0;
         long insertSortNearlySortedAveTime = 0;
 
-        //TODO: Add global time variables for each sorting method.
+        long builtInSortComparisons = 0;
+        long heapSortComparisons = 0;
+        long mergeSortComparisons = 0;
+        //long bottomUpSortComparisons = 0;
+        long quickSortComparisons = 0;
+        long quickSortNearlySortedComparisons = 0;
+        long insertSortNearlySortedComparisons = 0;
+
+        //TODO: Add global comparison variables for each sorting method.
 
         try {
             System.out.print("Please enter array size : ");
@@ -303,6 +310,12 @@ public class sorting {
         }
 
         System.out.println("Built In Sort Average Execution Time: " + builtInSortAveTime/trials + " milliseconds.");
+        System.out.println("Heap Sort Average Execution Time: " + heapSortAvetime/trials + " milliseconds.");
+        System.out.println("Merge Sort Average Execution Time: " + mergeSortAveTime/trials + " milliseconds.");
+        //System.out.println("Bottom Up Merge Sort Average Execution Time: " + bottomUpSortAveTime/trials + " milliseconds.");
+        System.out.println("Quick Sort Average Execution Time: " + quickSortAveTime/trials + " milliseconds.");
+        System.out.println("Nearly Sorted Quick Sort Average Execution Time: " + quickSortNearlySortedAveTime/trials + " milliseconds.");
+        System.out.println("Nearly Sorted Insertion Sort Average Execution Time: " + insertSortNearlySortedAveTime/trials + " milliseconds.");
 
 
 
