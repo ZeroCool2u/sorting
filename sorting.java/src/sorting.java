@@ -16,13 +16,8 @@ public class sorting {
 
     private static int size;
     private static int random;
-    private static int trials;
+    private static long trials;
 
-    private int insertSortAveTime;
-    private int heapSortAvetime;
-    private int mergeSortAveTime;
-    private int bottomUpSortAveTime;
-    private int quickSortAveTime;
 
     private static void printArray(String msg) {
         System.out.print(msg + " [" + arr[0]);
@@ -179,7 +174,16 @@ public class sorting {
 
         randomGenerator = new Random();
 
-        //TODO: Add global time variable.
+        long builtInSortAveTime = 0;
+        long insertSortAveTime = 0;
+        long heapSortAvetime = 0;
+        long mergeSortAveTime = 0;
+        long bottomUpSortAveTime = 0;
+        long quickSortAveTime = 0;
+        long quickSortNearlySortedAveTime = 0;
+        long insertSortNearlySortedAveTime = 0;
+
+        //TODO: Add global time variables for each sorting method.
 
         try {
             System.out.print("Please enter array size : ");
@@ -190,6 +194,8 @@ public class sorting {
 
             System.out.print("Please enter the number of trials you would like to run all tests : ");
             trials = Integer.parseInt(read.readLine());
+
+            System.out.println();
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -213,6 +219,8 @@ public class sorting {
         if (size < 101) printArray("out");
         long finish = System.currentTimeMillis();
         System.out.println("Arrays.sort: " + (finish - start) + " milliseconds.");
+            builtInSortAveTime += finish - start;
+            System.out.println();
 
         // Heap sort
         for (int i = 0; i < size; i++) arr[i] = arrCopy[i];
@@ -222,6 +230,8 @@ public class sorting {
         if (size < 101) printArray("out");
         finish = System.currentTimeMillis();
         System.out.println("heapsort: " + (finish - start) + " milliseconds.");
+            heapSortAvetime += finish - start;
+            System.out.println();
 
         // Merge sort
         for (int i = 0; i < size; i++) arr[i] = arrCopy[i];
@@ -231,6 +241,8 @@ public class sorting {
         if (size < 101) printArray("out");
         finish = System.currentTimeMillis();
         System.out.println("mergesort: " + (finish - start) + " milliseconds.");
+            mergeSortAveTime += finish - start;
+            System.out.println();
 
         // Bottom Up Merge Sort
        /* for(int i=0; i<size; i++) arr[i] = arrCopy[i];
@@ -239,7 +251,9 @@ public class sorting {
         bottomupmergesort();
         if (size < 101) printArray("out");
         finish = System.currentTimeMillis();
-        System.out.println("Bottom Up Merge Sort: " + (finish - start) + " milliseconds");*/
+        System.out.println("Bottom Up Merge Sort: " + (finish - start) + " milliseconds");
+        bottomUpSortAveTime += finish - start;
+        System.out.println();*/
 
         // Quick sort
         for (int i = 0; i < size; i++) arr[i] = arrCopy[i];
@@ -249,6 +263,9 @@ public class sorting {
         if (size < 101) printArray("out");
         finish = System.currentTimeMillis();
         System.out.println("quicksort: " + (finish - start) + " milliseconds.");
+            quickSortAveTime += finish - start;
+
+            System.out.println();
 
         // arr[0..size-1] is already sorted. We randomly swap 100 pairs to make it nearly-sorted.
         for (int i = 0; i < 100; i++) {
@@ -265,6 +282,9 @@ public class sorting {
         if (size < 101) printArray("out");
         finish = System.currentTimeMillis();
         System.out.println("quicksort on nearly-sorted: " + (finish - start) + " milliseconds.");
+            quickSortNearlySortedAveTime += finish - start;
+
+            System.out.println();
 
         // Insert sort on nearly-sorted array
         for (int i = 0; i < size; i++) arr[i] = arrCopy2[i];
@@ -274,8 +294,17 @@ public class sorting {
         if (size < 101) printArray("out");
         finish = System.currentTimeMillis();
         System.out.println("insertsort on nearly-sorted: " + (finish - start) + " milliseconds.");
+            insertSortNearlySortedAveTime += finish - start;
 
-    }
+            System.out.println();
+            System.out.println("---------------------------- END OF TRIAL NUMBER: " + (t + 1) +" ----------------------------");
+            System.out.println();
+
+        }
+
+        System.out.println("Built In Sort Average Execution Time: " + builtInSortAveTime/trials + " milliseconds.");
+
+
 
     }
 }
